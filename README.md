@@ -16,11 +16,13 @@ In this step we will import some libraries which is used for making doing some o
 2. numpy : used for numeric operation in dataset
 3. Matplotlib : for visualization
 ## Importing Datasets :
-In this section we will import our dataset by using pandas function 'df1=pd.read_csv('City_house_Data.csv')'
+In this section we will import our dataset by using pandas function 
+'df1=pd.read_csv('City_house_Data.csv')'
 ![Screenshot (296)](https://user-images.githubusercontent.com/77377586/116209392-7dd86f00-a75f-11eb-91b2-84c03f561355.png)
 
 ## Dropping some less important features :
-We will drop that features which are very less important by using 'df2 = df1.drop(['area_type','society','balcony','availability'],axis='columns')'
+We will drop that features which are very less important by using 
+'df2 = df1.drop(['area_type','society','balcony','availability'],axis='columns')'
 ![Screenshot (297)](https://user-images.githubusercontent.com/77377586/116209500-99dc1080-a75f-11eb-9264-dd541da2a7e8.png)
 
 
@@ -42,14 +44,13 @@ Now the new array will be
 ![Screenshot (299)](https://user-images.githubusercontent.com/77377586/116209819-e9bad780-a75f-11eb-885a-042ca6ed39d1.png)
 ### Analysing the values in total sqare_ft section which are not float
 we can analyse by using def method 
-'''
-def is_float(x):
+'def is_float(x):
     try:
         float(x)
     except:
         return False
-    return True
-    '''
+    return True'
+    
     
  ![Screenshot (300)](https://user-images.githubusercontent.com/77377586/116211003-0572ad80-a761-11eb-9514-1e4ae887d37f.png)
  
