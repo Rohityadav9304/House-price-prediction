@@ -122,10 +122,15 @@ those bathroom features whose values are less than the bedrooms
  Befor selecting model we do some steps
  #### 1. One hot Encoding : to convert location features into dummy variables
     'dummies = pd.get_dummies(df10.location)'
- #### 2. Separating features and labels
+ #### 2. Dropping feature : 'Other'
+ we will drop the the other dummy variable since it is less important
+ #### 3. Dropping Location Column:
+ We will the drop the location column since it don't contain numeric values and we have already created dummmy variables of location column features
+ which are in numeric for for further processing
+ #### 4. Separating features and labels
      'X = df12.drop(['price'],axis='columns')'
      'y = df12.price'
- #### 3. Training Testing and splitting : We will take 20% test size 
+ #### 5. Training Testing and splitting : We will take 20% test size 
 ![Screenshot (316)](https://user-images.githubusercontent.com/77377586/116248182-3f57aa00-a789-11eb-84d4-eff113587678.png)
 
  ## Training Regression Model 
