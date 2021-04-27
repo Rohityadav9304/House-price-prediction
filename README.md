@@ -55,8 +55,7 @@ we can analyse by using def method
  ![Screenshot (300)](https://user-images.githubusercontent.com/77377586/116211003-0572ad80-a761-11eb-9514-1e4ae887d37f.png)
  
  so we in this data we will convert these types of data into float by making average of both numbers by using def.
- '''
- def convert_sqft_to_num(x):
+ 'def convert_sqft_to_num(x):
     tokens = x.split('-')
     if len(tokens) == 2:
         return (float(tokens[0])+float(tokens[1]))/2
@@ -65,8 +64,7 @@ we can analyse by using def method
     except:
         return None
  df4 = df3.copy()
-df4.total_sqft = df4.total_sqft.apply(convert_sqft_to_num)
-'''
+df4.total_sqft = df4.total_sqft.apply(convert_sqft_to_num)'
 
 so the average of both has been settled in place of the previous 
 
