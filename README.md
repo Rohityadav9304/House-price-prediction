@@ -16,7 +16,7 @@ In this step we will import some libraries which is used for making doing some o
 2. numpy : used for numeric operation in dataset
 3. Matplotlib : for visualization
 ## Importing Datasets :
-In this section we will import our dataset by using pandas function 
+In this section we will import our dataset by using pandas function.
 'df1=pd.read_csv('City_house_Data.csv')'
 ![Screenshot (296)](https://user-images.githubusercontent.com/77377586/116209392-7dd86f00-a75f-11eb-91b2-84c03f561355.png)
 
