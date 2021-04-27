@@ -42,27 +42,13 @@ Now the new array will be
 ![Screenshot (299)](https://user-images.githubusercontent.com/77377586/116209819-e9bad780-a75f-11eb-885a-042ca6ed39d1.png)
 ### Analysing the values in total sqare_ft section which are not float
 we can analyse by using def method 
-'def is_float(x):
-    try:
-        float(x)
-    except:
-        return False
-    return True'
-    
+![Screenshot (309)](https://user-images.githubusercontent.com/77377586/116247641-b17bbf00-a788-11eb-85e7-21b3c093e954.png)
+
     
  ![Screenshot (300)](https://user-images.githubusercontent.com/77377586/116211003-0572ad80-a761-11eb-9514-1e4ae887d37f.png)
  
  so we in this data we will convert these types of data into float by making average of both numbers by using def.
- 'def convert_sqft_to_num(x):
-    tokens = x.split('-')
-    if len(tokens) == 2:
-        return (float(tokens[0])+float(tokens[1]))/2
-    try:
-        return float(x)
-    except:
-        return None
- df4 = df3.copy()
-df4.total_sqft = df4.total_sqft.apply(convert_sqft_to_num)'
+ ![Screenshot (310)](https://user-images.githubusercontent.com/77377586/116247747-c8baac80-a788-11eb-88b0-fbfd79aac95a.png)
 
 so the average of both has been settled in place of the previous 
 
@@ -86,37 +72,15 @@ we will assume a threshold value of total_sqft_per_bedroom =300
 we will only take those values which are greater than thresholad value
 'df6=df5[~df5.total_sqft/df5.bhk<300]'
 #### Creating a function for which (mean-standard-deviation)< price_per_sq_ft<=(mean+standard_deviation)
-'''
-def remove_pps_outliers(df):
-    df_out = pd.DataFrame()
-    for key, subdf in df.groupby('location'):
-        m = np.mean(subdf.price_per_sqft)
-        st = np.std(subdf.price_per_sqft)
-        reduced_df = subdf[(subdf.price_per_sqft>(m-st)) & (subdf.price_per_sqft<=(m+st))]
-        df_out = pd.concat([df_out,reduced_df],ignore_index=True)
-    return df_out
-    
- df7 = remove_pps_outliers(df6)
- after calling this function will remove those outliers which are not in range
- '''
- 
+![Screenshot (311)](https://user-images.githubusercontent.com/77377586/116247877-ea1b9880-a788-11eb-877d-2d140813dc78.png)
+
 #### Now We will check property price of 3bhk is greater than the price of 2bhk or not
 this can be due to the location and services of that property the property may be at good location so that it's price is high
 for this we will use def function and draw a scatter plot
-'''
-def plot_scatter_chart(df,location):
-    bhk2 = df[(df.location==location) & (df.bhk==2)]
-    bhk3 = df[(df.location==location) & (df.bhk==3)]
-    matplotlib.rcParams['figure.figsize'] = (15,10)
-    plt.scatter(bhk2.total_sqft,bhk2.price,color='blue',label='2 BHK', s=50)
-    plt.scatter(bhk3.total_sqft,bhk3.price,marker='+', color='green',label='3 BHK', s=50)
-    plt.xlabel("Total Square Feet Area")
-    plt.ylabel("Price (Lakh Indian Rupees)")
-    plt.title(location)
-    plt.legend()
-    
+![Screenshot (312)](https://user-images.githubusercontent.com/77377586/116247950-fdc6ff00-a788-11eb-8153-73e23b65bef1.png)
+
+
 plot_scatter_chart(df7,"Rajaji Nagar")
-'''
 #### Plot
 ![download](https://user-images.githubusercontent.com/77377586/116218364-14109300-a768-11eb-93ab-1836c3989096.png)
 
@@ -125,26 +89,8 @@ plot_scatter_chart(df7,"Rajaji Nagar")
 ![download (1)](https://user-images.githubusercontent.com/77377586/116218536-402c1400-a768-11eb-9a0c-95183594202e.png)
 ### Removing Outliers:
 to remove outliers we will use function method
-'''
-def remove_bhk_outliers(df):
-    exclude_indices = np.array([])
-    for location, location_df in df.groupby('location'):
-        bhk_stats = {}
-        for bhk, bhk_df in location_df.groupby('bhk'):
-            bhk_stats[bhk] = {
-                'mean': np.mean(bhk_df.price_per_sqft),
-                'std': np.std(bhk_df.price_per_sqft),
-                'count': bhk_df.shape[0]
-            }
-            
-        for bhk, bhk_df in location_df.groupby('bhk'):
-            stats = bhk_stats.get(bhk-1)
-            if stats and stats['count']>5:
-                exclude_indices = np.append(exclude_indices, bhk_df[bhk_df.price_per_sqft<(stats['mean'])].index.values)
-    return df.drop(exclude_indices,axis='index')
-df8 = remove_bhk_outliers(df7)
-    
-'''
+![Screenshot (313)](https://user-images.githubusercontent.com/77377586/116248013-0e777500-a789-11eb-8161-ac7be68a86d7.png)
+
 ### Checking Improvements
 'plot_scatter_chart(df8,"Rajaji Nagar")'
 
@@ -154,25 +100,16 @@ df8 = remove_bhk_outliers(df7)
 ![download (3)](https://user-images.githubusercontent.com/77377586/116219307-17584e80-a769-11eb-957b-46d7c6ce8d67.png)
 #### Here we have seen that majority of outliers has been removed
 ### Plotting Histogram
-'''
-import matplotlib
-matplotlib.rcParams["figure.figsize"] = (20,10)
-plt.hist(df8.price_per_sqft,rwidth=0.8)
-plt.xlabel("Price Per Square Feet")
-plt.ylabel("Count")
-'''
+![Screenshot (314)](https://user-images.githubusercontent.com/77377586/116248092-24853580-a789-11eb-9925-9a46d6e21eaa.png)
+
 ![download (4)](https://user-images.githubusercontent.com/77377586/116219534-57b7cc80-a769-11eb-9644-23509fb34b10.png)
 
 ### Looking at the bathroom features 
 Here we observe that some bathroom features are more than 10 values which are unusual so we will take only 
 those bathroom features whose values are less than the bedrooms 
 ### Plotting bathroom histogram
-'''
-df8.bath.unique()
-plt.hist(df8.bath,rwidth=0.8)
-plt.xlabel("Number of bathrooms")
-plt.ylabel("Count")
-'''
+![Screenshot (315)](https://user-images.githubusercontent.com/77377586/116248128-2c44da00-a789-11eb-8050-02d16ac75bd4.png)
+
 ![download (5)](https://user-images.githubusercontent.com/77377586/116220275-24297200-a76a-11eb-972a-fa360dddb86f.png)
 
 ### Dropping some features :
@@ -189,76 +126,21 @@ plt.ylabel("Count")
      'X = df12.drop(['price'],axis='columns')'
      'y = df12.price'
  #### 3. Training Testing and splitting : We will take 20% test size 
-   '''
-from sklearn.model_selection import train_test_split
-X_train, X_test, y_train, y_test = train_test_split(X,y,test_size=0.2,random_state=10)
-'''
+![Screenshot (316)](https://user-images.githubusercontent.com/77377586/116248182-3f57aa00-a789-11eb-84d4-eff113587678.png)
+
  ## Training Regression Model 
- '''
- from sklearn.linear_model import LinearRegression
-lr_clf = LinearRegression()
-lr_clf.fit(X_train,y_train)
-lr_clf.score(X_test,y_test)
-'''
-output=0.8452277697874312
+![Screenshot (317)](https://user-images.githubusercontent.com/77377586/116248198-467eb800-a789-11eb-94d5-643be155543a.png)
+
 ### Shuffle split
 use to shuffle the data into training and testing sets
-'''
-from sklearn.model_selection import ShuffleSplit
-from sklearn.model_selection import cross_val_score
-
-cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
-
-cross_val_score(LinearRegression(), X, y, cv=cv)
-'''
-output =array([0.82430186, 0.77166234, 0.85089567, 0.80837764, 0.83653286])
+![Screenshot (318)](https://user-images.githubusercontent.com/77377586/116248237-51394d00-a789-11eb-8108-8b66f1261f46.png)
 
 # Creating Grid searchCv model to identify best model
-'''
-from sklearn.model_selection import GridSearchCV
+![Screenshot (319)](https://user-images.githubusercontent.com/77377586/116248277-59918800-a789-11eb-82f7-e345e39084b5.png)
 
-from sklearn.linear_model import Lasso
-from sklearn.tree import DecisionTreeRegressor
-'''
 # Creating a function which detects best model on the basis of score
-'''
- def find_best_model_using_gridsearchcv(X,y):
-    algos = {
-        'linear_regression' : {
-            'model': LinearRegression(),
-            'params': {
-                'normalize': [True, False]
-            }
-        },
-        'lasso': {
-            'model': Lasso(),
-            'params': {
-                'alpha': [1,2],
-                'selection': ['random', 'cyclic']
-            }
-        },
-        'decision_tree': {
-            'model': DecisionTreeRegressor(),
-            'params': {
-                'criterion' : ['mse','friedman_mse'],
-                'splitter': ['best','random']
-            }
-        }
-    }
-    scores = []
-    cv = ShuffleSplit(n_splits=5, test_size=0.2, random_state=0)
-    for algo_name, config in algos.items():
-        gs =  GridSearchCV(config['model'], config['params'], cv=cv, return_train_score=False)
-        gs.fit(X,y)
-        scores.append({
-            'model': algo_name,
-            'best_score': gs.best_score_,
-            'best_params': gs.best_params_
-        })
+![Screenshot (320)](https://user-images.githubusercontent.com/77377586/116248341-6a41fe00-a789-11eb-9c91-9bbc5fc79d18.png)
 
-    return pd.DataFrame(scores,columns=['model','best_score','best_params'])
-    '''
-    
  # Finding Best model :
  'find_best_model_using_gridsearchcv(X,y)'
  ![Screenshot (308)](https://user-images.githubusercontent.com/77377586/116223450-25a86980-a76d-11eb-92d1-1beb87b5d9c6.png)
@@ -270,19 +152,7 @@ from sklearn.tree import DecisionTreeRegressor
  
  ## Making Prediction function :
  here we will create a prediction function which takes input as location , sqft,bath,bhk .
- '''
- def predict_price(location,sqft,bath,bhk):    
-    loc_index = np.where(X.columns==location)[0][0]
-
-    x = np.zeros(len(X.columns))
-    x[0] = sqft
-    x[1] = bath
-    x[2] = bhk
-    if loc_index >= 0:
-        x[loc_index] = 1
-
-    return lr_clf.predict([x])[0]
-    '''
+ ![Screenshot (321)](https://user-images.githubusercontent.com/77377586/116248363-70d07580-a789-11eb-903e-8ee6dd361ce4.png)
 
 # Making Predictions :
 Now our model is ready for predictions 
