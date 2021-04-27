@@ -17,12 +17,10 @@ In this step we will import some libraries which is used for making doing some o
 3. Matplotlib : for visualization
 ## Importing Datasets :
 In this section we will import our dataset by using pandas function.
-'df1=pd.read_csv('City_house_Data.csv')'
 ![Screenshot (296)](https://user-images.githubusercontent.com/77377586/116209392-7dd86f00-a75f-11eb-91b2-84c03f561355.png)
 
 ## Dropping some less important features :
-We will drop that features which are very less important by using 
-'df2 = df1.drop(['area_type','society','balcony','availability'],axis='columns')'
+We will drop that features which are very less important by using  df1.drop([' ',' '] ,axis=column)
 ![Screenshot (297)](https://user-images.githubusercontent.com/77377586/116209500-99dc1080-a75f-11eb-9264-dd541da2a7e8.png)
 
 
